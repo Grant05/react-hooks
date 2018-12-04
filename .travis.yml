@@ -1,0 +1,17 @@
+
+# Request root permissions to the TravisCI runtime environment
+sudo: required
+# Tell TravisCI that we're using docker to run our tests
+services:
+    - docker
+# Build our deployment container
+before_deploy:
+  - docker build -t react-hooks .
+
+# Run our deployment container via shell script if commiting to the master branch
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash ./scripts/deploy.sh
+  on:
+    branch: master
